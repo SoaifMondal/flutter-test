@@ -89,22 +89,22 @@ class _LoginPageState extends State<FormField> {
 
       // API request
       final response = await http.post(
-        Uri.parse('https://arcscope.weavers-web.com/wp-json/jwt-auth/v1/token'),
+        Uri.parse('https://app.ef-tm.com/v1//public/login'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({"username": username, "password": password}),
+        body: jsonEncode({"email": username, "password": password}),
       );
 
       if (response.statusCode == 200) {
         // Parse the response
         final data = jsonDecode(response.body);
 
-        if (data['token'] != null) {
+        if (data['data']['user']['accessToken'] != null) {
           // Navigate to Home Page
           Navigator.pushReplacementNamed(context, '/home');
         } else {
           _showError('Login failed. Please check your credentials.');
         }
-      } else if(response.statusCode == 403) {
+      } else if(response.statusCode == 412) {
         _showError('Login failed. Please enter correct user details.');
       }
 
@@ -142,33 +142,38 @@ class _LoginPageState extends State<FormField> {
 
   @override
   Widget build(BuildContext context) {
+
+    Size size = MediaQuery.sizeOf(context);
+    double height = size.height;
+    double width = size.width;
+
     return(
         Column(
           children:[
             CustomInputWidget(
               key: usernameKey,
               controller: _usernameController,
-              hintText: 'Email or username',
+              hintText: 'Email',
               validator: (value) => value == null || value.isEmpty ? 'Username is required' : null,
-              height: 60,
-              width: 374,
+              height: height*0.070,
+              width: width*0.92,
             ),
-            const SizedBox(height: 15,),
+            SizedBox(height: height*0.020,),
             CustomInputWidget(
               key: passwordKey,
               controller: _passwordController,
               hintText: 'Password',
               isPassword: true,
               validator: (value) => value == null || value.isEmpty ? 'Password is required' : null,
-              height: 60,
-              width: 374,
+              height: height*0.070,
+              width: width*0.92,
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: height*0.020,),
             _isLoading
                 ? const CircularProgressIndicator(color: Color.fromRGBO(11, 32, 62, 1),)
                 : SizedBox(
-                    width: 374,
-                    height: 60,
+                    width: width*0.92,
+                    height: height*0.070,
                     child: TextButton(
                       onPressed: _login, 
                       style: TextButton.styleFrom(

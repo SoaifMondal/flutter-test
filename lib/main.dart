@@ -9,7 +9,6 @@ void main() {
 }
 
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -24,9 +23,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => LoginPage(),
-        '/home': (context) => HomePage(),
-        '/productDetails': (context) => ProductDetailsPage(),
+        '/': (context) => const LoginPage(),
+        '/home': (context) => const HomePage(),
+        '/productDetails': (context) => const ProductDetailsPage(),
       },
     );
   }

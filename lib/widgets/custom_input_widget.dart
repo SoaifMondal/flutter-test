@@ -47,7 +47,7 @@ class CustomInputWidgetState extends State<CustomInputWidget>{
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(100), 
-            border: Border.all(color: Color.fromRGBO(11, 34, 62, 0.2), width: 1),
+            border: Border.all(color: const Color.fromRGBO(11, 34, 62, 0.2), width: 1),
           ),
           child: TextFormField(
             controller: widget.controller,
@@ -82,7 +82,7 @@ class CustomInputWidgetState extends State<CustomInputWidget>{
                   ) : 
                   widget.inputIcon != null ?
                   Padding(
-                    padding: EdgeInsets.only(right: 15),
+                    padding: const EdgeInsets.only(right: 15),
                     child: IconButton(onPressed: null, icon: Icon(widget.inputIcon)),
                   ) : null,
             ),
