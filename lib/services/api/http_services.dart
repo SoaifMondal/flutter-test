@@ -88,7 +88,6 @@ class HttpService {
       var headers = {
         'Authorization': token,
         'Content-Type': 'application/json',
-        'Accept': '*/*'
       };
       request.headers.addAll(headers);
 

@@ -1,3 +1,4 @@
+import 'package:ez_navy_app/controller/auth/auth_controller.dart';
 import 'package:ez_navy_app/global_data/global_data.dart';
 import 'package:ez_navy_app/routes/routes.dart';
 import 'package:ez_navy_app/routes/routes_names.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/services.dart';
 import './pages/login_page.dart';
 import './pages/home_page.dart';
 import './pages/product_details.dart';
+import 'package:get/get.dart';
+
 
 Future main() async {
 
@@ -19,6 +22,9 @@ Future main() async {
       SystemUiOverlay.top,
     ],
   );
+  getXControllerInit();
+  GlobalDataManager();
+
   runApp(const MyApp());
 }
 
@@ -48,3 +54,7 @@ class MyApp extends StatelessWidget {
 GlobalKey<ScaffoldMessengerState> globalMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+void getXControllerInit() {
+  Get.lazyPut(() => AuthController());
+}
