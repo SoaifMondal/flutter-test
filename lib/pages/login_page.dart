@@ -1,4 +1,6 @@
 
+import 'package:ez_navy_app/routes/routes.dart';
+import 'package:ez_navy_app/routes/routes_names.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -100,7 +102,7 @@ class _LoginPageState extends State<FormField> {
 
         if (data['data']['user']['accessToken'] != null) {
           // Navigate to Home Page
-          Navigator.pushReplacementNamed(context, '/home');
+          pushReplacement(routeName: RoutesName.produtcsPage);
         } else {
           _showError('Login failed. Please check your credentials.');
         }

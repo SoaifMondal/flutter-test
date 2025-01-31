@@ -1,4 +1,6 @@
 
+import 'package:ez_navy_app/routes/routes.dart';
+import 'package:ez_navy_app/routes/routes_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
@@ -153,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                 GestureDetector(
                   child: SvgPicture.asset('assets/images/sign-out-alt.svg'),
                   onTap: () {
-                    Navigator.pushReplacementNamed(context,'/');
+                    _dialogBuilder(context);
                   },
                 ),
               ],
@@ -260,6 +262,40 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+  Future<void> _dialogBuilder(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Logout'),
+          content: const Text(
+            'Are you sure you want to log out.',
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Yes'),
+              onPressed: () {
+                pushReplacement(routeName: RoutesName.loginPage);
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('NO'),
+              onPressed: () {
+                 pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
 class ProductCard extends StatelessWidget {
   final dynamic product;
