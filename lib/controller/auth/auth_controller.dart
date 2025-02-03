@@ -21,21 +21,21 @@ class AuthController extends GetxController {
 
     await _globalDataManager.setJwtJsonToken(jwtToken);
 
-    final res = await _authServices.getEmployeeProfile(jwtToken: jwtToken);
+    final res = '';
     
-    if (res.status == true) {
-      pushNamed(routeName: RoutesName.produtcsPage);
+    // if (res.status == true) {
+    //   pushNamed(routeName: RoutesName.produtcsPage);
       
-    } else {
+    // } else {
       
-      log('OOOOO' + res.errorMessage.toString());
-      CustomModal(
-        title: 'Error',
-        content: res.errorMessage!,
-        rightButtonText: 'Ok',
-        rightButtonOnClick: ()=>pop(),
-      );
-    }
+    //   log('OOOOO' + res.errorMessage.toString());
+    //   CustomModal(
+    //     title: 'Error',
+    //     content: res.errorMessage!,
+    //     rightButtonText: 'Ok',
+    //     rightButtonOnClick: ()=>pop(),
+    //   );
+    // }
 
   }
 

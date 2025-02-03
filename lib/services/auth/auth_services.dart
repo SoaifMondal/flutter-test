@@ -5,19 +5,19 @@ import 'package:ez_navy_app/model/api_base_data_model.dart';
 import 'package:ez_navy_app/services/api/http_services.dart';
 
 class AuthServices {
-  final HttpService _httpService = HttpService();
+  // final HttpService _httpService = HttpService();
 
-  Future<ApiBaseDataModel> getEmployeeProfile(
-      {required String jwtToken}) async {
-    try {
-      return await _httpService.getRequest(
-        ApiUrls.getEmployeeProfile,
-        token: jwtToken,
-      );
-    } catch (e) {
-      return ApiBaseDataModel(status: false);
-    }
-  }
+  // Future<ApiBaseDataModel> getEmployeeProfile(
+  //     {required String jwtToken}) async {
+  //   try {
+  //     return await _httpService.getRequest(
+  //       ApiUrls.getEmployeeProfile,
+  //       token: jwtToken,
+  //     );
+  //   } catch (e) {
+  //     return ApiBaseDataModel(status: false);
+  //   }
+  // }
 
   // ----------------------------------------------------------------------- //
   // -------------------Ignore below end points----------------------------- //
