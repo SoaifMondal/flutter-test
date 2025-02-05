@@ -1,18 +1,25 @@
 
+import 'package:ez_navy_app/routes/routes.dart';
+import 'package:ez_navy_app/routes/routes_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ProductDetailsPage extends StatefulWidget {
-  const ProductDetailsPage({super.key});
+
+  final Map<String, dynamic> arguments;
+
+  ProductDetailsPage({super.key, required this.arguments});
 
   @override
   _ProductDetailsPageState createState() => _ProductDetailsPageState();
 }
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
-  late int productId;
+
   late Future<Map<String, dynamic>> productDetails;
   bool isLoading = true;
   
@@ -27,13 +34,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Get product ID passed via Navigator
-    productId = ModalRoute.of(context)!.settings.arguments as int;
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final int productId = widget.arguments['product_id'] ?? 0;
 
-    // Fetch product details from API
-    productDetails = fetchProductDetails(productId);
+      setState(() {
+        productDetails = fetchProductDetails(productId);
+      });
+    });
   }
 
   @override
@@ -54,7 +63,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 padding: EdgeInsets.zero, // Ensures no extra padding
                 alignment: Alignment.centerLeft, // Aligns it with the start of the column
                 child: GestureDetector(
-                  onTap: () { Navigator.pushNamed(context, '/home'); },
+                  onTap: () { pushNamed(routeName: RoutesName.produtcsPage); },
                   child: SvgPicture.asset('assets/images/Back.svg'),
                 ),
               ),

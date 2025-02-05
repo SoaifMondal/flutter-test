@@ -17,11 +17,11 @@ class OnGeneratedRoutes {
         );
       case RoutesName.produtcsPage:
         return MaterialPageRoute(
-          builder: (_) => const HomePage(),
+          builder: (_) => HomePage(),
         );
-      case RoutesName.productDeatilsPage:
+      case RoutesName.productDetailsPage:
         return MaterialPageRoute(
-          builder: (_) => const ProductDetailsPage(),
+          builder: (_) => ProductDetailsPage(arguments: args as Map<String, dynamic>),
         );
       case RoutesName.productFilter:
         return MaterialPageRoute(

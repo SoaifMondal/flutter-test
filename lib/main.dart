@@ -5,9 +5,6 @@ import 'package:ez_navy_app/routes/routes_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import './pages/login_page.dart';
-import './pages/home_page.dart';
-import './pages/product_details.dart';
 import 'package:get/get.dart';
 
 
@@ -23,10 +20,11 @@ Future main() async {
     ],
   );
   getXControllerInit();
-  GlobalDataManager();
+  await GlobalDataManager().initialize();
 
   runApp(const MyApp());
 }
+
 
 
 class MyApp extends StatelessWidget {
@@ -34,15 +32,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+
+    String? token = GlobalDataManager().getJwtJsonToken();
+    print("JWT Token: $token"); // Debugging
+
+    return GetMaterialApp(
       title: 'Flutter Login Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: const Color.fromRGBO(241, 245, 250, 1),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: GlobalDataManager().getJwtJsonToken() != null ?
-       RoutesName.produtcsPage : RoutesName.loginPage,
+      initialRoute: GlobalDataManager().getJwtJsonToken() == null ?
+      RoutesName.loginPage : RoutesName.produtcsPage,
       onGenerateRoute: OnGeneratedRoutes.onGenerateRoute,
       navigatorKey: navigatorKey,
     );
