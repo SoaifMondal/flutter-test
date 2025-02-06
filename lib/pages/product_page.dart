@@ -1,13 +1,17 @@
-import 'package:ez_navy_app/controller/auth/product_page_controller.dart';
+import 'package:ez_navy_app/controller/product_page_controller/product_page_controller.dart';
+import 'package:ez_navy_app/model/product_model/product_model.dart';
 import 'package:ez_navy_app/routes/routes.dart';
 import 'package:ez_navy_app/routes/routes_names.dart';
+import 'package:ez_navy_app/utils/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../widgets/custom_input_widget.dart';
 
-class HomePage extends StatelessWidget {
-  final HomeController controller = Get.put(HomeController());
+class ProductPage extends StatelessWidget {
+  final ProductPageController controller = Get.put(ProductPageController());
+
+  ProductPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -93,14 +97,14 @@ class HomePage extends StatelessWidget {
                               ListTile(
                                 title: const Text('Ascending'),
                                 onTap: () {
-                                  // controller.changeSortOrder('asc');
+                                  controller.changeSortOrder('asc');
                                   Get.back();
                                 },
                               ),
                               ListTile(
                                 title: const Text('Descending'),
                                 onTap: () {
-                                  // controller.changeSortOrder('desc');
+                                  controller.changeSortOrder('desc');
                                   Get.back();
                                 },
                               ),
@@ -125,7 +129,7 @@ class HomePage extends StatelessWidget {
                                 return ListTile(
                                   title: Text(category),
                                   onTap: () {
-                                    // controller.setCategory(category);
+                                    controller.setCategory(category);
                                     Get.back();
                                   },
                                 );
@@ -158,7 +162,7 @@ class HomePage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // controller.setCategory(null);
+                        controller.setCategory(null);
                       },
                       child: Text('X  Clear Filter'),
                     ),
@@ -195,15 +199,14 @@ class HomePage extends StatelessWidget {
 }
 
 class ProductCard extends StatelessWidget {
-  final dynamic product;
+  final ProductModel product;
   const ProductCard({required this.product});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print(product['id']);
-        pushNamed(routeName: RoutesName.productDetailsPage, arguments:  {'product_id' : product['id']} );
+        pushNamed(routeName: RoutesName.productDetailsPage, arguments: ProductArgument(productID: product.id) );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -216,11 +219,11 @@ class ProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 50,),
-              Center(child: Image.network(product['image'], height: 100, fit: BoxFit.cover)),
+              Center(child: Image.network(product.image, height: 100, fit: BoxFit.cover)),
               SizedBox(height: 20,),
-              Text(product['title'], maxLines: 2, overflow: TextOverflow.ellipsis),
+              Text(product.title, maxLines: 2, overflow: TextOverflow.ellipsis),
               SizedBox(height: 20,),
-              Text('\$${product['price']}', style: TextStyle(fontWeight: FontWeight.bold)),
+              Text('\$${product.price}', style: TextStyle(fontWeight: FontWeight.bold)),
             ],
           ),
         ),

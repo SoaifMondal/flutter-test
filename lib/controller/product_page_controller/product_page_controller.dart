@@ -1,10 +1,11 @@
+import 'package:ez_navy_app/model/product_model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class HomeController extends GetxController {
-  var products = <dynamic>[].obs;
+class ProductPageController extends GetxController {
+  var products = <ProductModel>[].obs;
   var categories = <String>[].obs;
   var isLoading = false.obs;
   var selectedCategory = Rxn<String>();
@@ -33,19 +34,23 @@ class HomeController extends GetxController {
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      List<dynamic> fetchedProducts = json.decode(response.body);
+      var fetchedProducts = json.decode(response.body);
       
       // Filter products based on search query
-      if (searchQuery.value.isNotEmpty) {
-        fetchedProducts = fetchedProducts
-            .where((product) => product['title']
-                .toString()
-                .toLowerCase()
-                .contains(searchQuery.value.toLowerCase()))
-            .toList();
+      // if (searchQuery.value.isNotEmpty) {
+      //   fetchedProducts = fetchedProducts
+      //       .where((product) => product['title']
+      //           .toString()
+      //           .toLowerCase()
+      //           .contains(searchQuery.value.toLowerCase()))
+      //       .toList();
+      // }
+
+      if(fetchedProducts is List){
+        print('product length ${fetchedProducts.length}');
+        products.value = fetchedProducts.map((json)=> ProductModel.fromJson(json)).toList();
       }
 
-      products.value = fetchedProducts;
     } else {
       Get.snackbar("Error", "Failed to load products");
     }
@@ -63,15 +68,15 @@ class HomeController extends GetxController {
     }
   }
 
-  // void setCategory(String? category) {
-  //   selectedCategory.value = category;
-  //   fetchProducts();
-  // }
+  void setCategory(String? category) {
+    selectedCategory.value = category;
+    fetchProducts();
+  }
 
-  // void changeSortOrder(String order) {
-  //   sortOrder.value = order;
-  //   fetchProducts();
-  // }
+  void changeSortOrder(String order) {
+    sortOrder.value = order;
+    fetchProducts();
+  }
 
   // void updateSearchQuery(String query) {
   //   searchQuery.value = query;

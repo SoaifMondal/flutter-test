@@ -1,9 +1,10 @@
 import 'package:ez_navy_app/main.dart';
-import 'package:ez_navy_app/pages/home_page.dart';
+import 'package:ez_navy_app/pages/product_page.dart';
 import 'package:ez_navy_app/pages/login_page.dart';
 import 'package:ez_navy_app/pages/product_details.dart';
 import 'package:ez_navy_app/pages/product_filterpage.dart';
 import 'package:ez_navy_app/routes/routes_names.dart';
+import 'package:ez_navy_app/utils/core.dart';
 import 'package:flutter/material.dart';
 
 class OnGeneratedRoutes {
@@ -17,12 +18,14 @@ class OnGeneratedRoutes {
         );
       case RoutesName.produtcsPage:
         return MaterialPageRoute(
-          builder: (_) => HomePage(),
+          builder: (_) => ProductPage(),
         );
       case RoutesName.productDetailsPage:
-        return MaterialPageRoute(
-          builder: (_) => ProductDetailsPage(arguments: args as Map<String, dynamic>),
-        );
+        if (args is ProductArgument) { // Ensure correct argument type
+          return MaterialPageRoute(
+            builder: (_) => ProductDetailsPage(productID: args)
+          );
+        }
       case RoutesName.productFilter:
         return MaterialPageRoute(
           builder: (_) => const ProductFilterPage(),
