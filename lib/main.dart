@@ -45,8 +45,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: GlobalDataManager().getJwtJsonToken() == null ?
       RoutesName.loginPage : RoutesName.produtcsPage,
+
       onGenerateRoute: OnGeneratedRoutes.onGenerateRoute,
       navigatorKey: navigatorKey,
+      
     );
   }
 }

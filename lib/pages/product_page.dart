@@ -207,6 +207,8 @@ class ProductCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         pushNamed(routeName: RoutesName.productDetailsPage, arguments: ProductArgument(productID: product.id) );
+        //Get.toNamed('/product-details', arguments: ProductArgument(productID: product.id));
+        print('product ID: ${product.id}');
       },
       child: Container(
         decoration: BoxDecoration(

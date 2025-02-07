@@ -6,8 +6,9 @@ import 'package:get/get.dart';
 
 class ProductDetailsPage extends StatelessWidget {
 
-  final ProductArgument productID;
-  ProductDetailsPage({super.key, required this.productID});
+  final ProductArgument arguments;
+
+  ProductDetailsPage({super.key, required this.arguments});
   
   final ProductDetailsController controller = Get.put(ProductDetailsController());
 
@@ -17,6 +18,8 @@ class ProductDetailsPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
+
+    controller.getProductId(arguments.productID);
 
     return Scaffold(
       body: Padding(
@@ -46,7 +49,8 @@ class ProductDetailsPage extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.network(product.image, height: 200, fit: BoxFit.cover),
+                    SizedBox(height: 16),
+                    Image.network(product.image, fit: BoxFit.cover),
                     SizedBox(height: 16),
                     Text(
                       product.title,
