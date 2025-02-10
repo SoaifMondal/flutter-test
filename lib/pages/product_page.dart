@@ -32,7 +32,6 @@ class ProductPage extends StatelessWidget {
           children: [
             // Title Row
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
                   'Products',
@@ -42,8 +41,12 @@ class ProductPage extends StatelessWidget {
                     color: Color.fromRGBO(11, 34, 62, 1),
                   ),
                 ),
+                const Spacer(),
                 GestureDetector(
-                  child: SvgPicture.asset('assets/images/sign-out-alt.svg'),
+                  child: Container(
+                    child: SvgPicture.asset('assets/images/sign-out-alt.svg'),
+                    height: 30,
+                  ),
                   onTap: () {
                     Get.defaultDialog(
                       title: "Log Out",
@@ -55,6 +58,17 @@ class ProductPage extends StatelessWidget {
                       },
                     );
                   },
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Badge(
+                  label: Text('2'),
+                  child: const Icon(
+                    Icons.shopping_bag_outlined,
+                    size: 30,
+                    color: Color.fromRGBO(11, 34, 62, 1),
+                  ),
                 ),
               ],
             ),
@@ -177,9 +191,10 @@ class ProductPage extends StatelessWidget {
                 return controller.isLoading.value
                     ? const Center(child: CircularProgressIndicator())
                     : GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 0.65,
+                          childAspectRatio: 0.50,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
                         ),
@@ -206,9 +221,12 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        pushNamed(routeName: RoutesName.productDetailsPage, arguments: ProductArgument(productID: product.id) );
+        pushNamed(
+            routeName: RoutesName.productDetailsPage,
+            arguments: ProductArgument(productID: product.id));
         //Get.toNamed('/product-details', arguments: ProductArgument(productID: product.id));
-        print('product ID: ${product.id}');
+        //Navigator.pushNamed( context, RoutesName.productDetailsPage, arguments: ProductArgument(productID: product.id), );
+        print('Product id: ${product.id}');
       },
       child: Container(
         decoration: BoxDecoration(
@@ -220,12 +238,41 @@ class ProductCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 50,),
-              Center(child: Image.network(product.image, height: 100, fit: BoxFit.cover)),
-              SizedBox(height: 20,),
+              const SizedBox(
+                height: 50,
+              ),
+              Center(
+                  child: Image.network(product.image,
+                      height: 100, fit: BoxFit.cover)),
+              const SizedBox(
+                height: 20,
+              ),
               Text(product.title, maxLines: 2, overflow: TextOverflow.ellipsis),
-              SizedBox(height: 20,),
-              Text('\$${product.price}', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(
+                height: 20,
+              ),
+              Text('\$${product.price}',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                    side: const BorderSide(
+                      color: Color.fromRGBO(11, 34, 62, 1),
+                      width: 2,
+                    ),
+                  ),
+                ),
+                child: const Text('Add To Cart',
+                    style: TextStyle(
+                      color: Color.fromRGBO(11, 34, 62, 1),
+                    )),
+              ),
             ],
           ),
         ),

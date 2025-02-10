@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ProductPageController extends GetxController {
+
+
   var products = <ProductModel>[].obs;
   var categories = <String>[].obs;
   var isLoading = false.obs;

@@ -21,10 +21,10 @@ class OnGeneratedRoutes {
           builder: (_) => ProductPage(),
         );
       case RoutesName.productDetailsPage:
-        if(args is ProductArgument){
-            return MaterialPageRoute(
-              builder: (_) => ProductDetailsPage(arguments: args)
-            );
+        if (args is ProductArgument) {
+          return MaterialPageRoute(
+            builder: (_) => ProductDetailsPage(productArgument: args),
+          );
         }
       case RoutesName.productFilter:
         return MaterialPageRoute(

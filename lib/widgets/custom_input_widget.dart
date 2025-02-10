@@ -57,6 +57,7 @@ class CustomInputWidgetState extends State<CustomInputWidget>{
               });
             },
             decoration: InputDecoration(
+              isDense: true,
               hintText: widget.hintText, // Use hintText instead of labelText
               hintStyle: const TextStyle(
                 color: Color.fromRGBO(75, 75, 75, 1),
@@ -86,6 +87,7 @@ class CustomInputWidgetState extends State<CustomInputWidget>{
                     child: IconButton(onPressed: null, icon: Icon(widget.inputIcon)),
                   ) : null,
             ),
+            textAlignVertical: TextAlignVertical.center, // Aligns text and hint vertically
             obscureText: widget.isPassword && _obscureText,
           ),
         ),

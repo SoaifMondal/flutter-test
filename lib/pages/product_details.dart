@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 
 class ProductDetailsPage extends StatelessWidget {
 
-  final ProductArgument arguments;
+  final ProductArgument productArgument;
 
-  ProductDetailsPage({super.key, required this.arguments});
+  ProductDetailsPage({super.key, required this.productArgument});
   
   final ProductDetailsController controller = Get.put(ProductDetailsController());
 
@@ -19,7 +19,11 @@ class ProductDetailsPage extends StatelessWidget {
     double height = size.height;
     double width = size.width;
 
-    controller.getProductId(arguments.productID);
+    final args = productArgument.productID;
+
+    print('Routing arg: $args');
+    controller.getProductId(args);
+
 
     return Scaffold(
       body: Padding(
