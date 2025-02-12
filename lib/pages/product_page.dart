@@ -3,6 +3,7 @@ import 'package:ez_navy_app/model/product_model/product_model.dart';
 import 'package:ez_navy_app/routes/routes.dart';
 import 'package:ez_navy_app/routes/routes_names.dart';
 import 'package:ez_navy_app/utils/core.dart';
+import 'package:ez_navy_app/widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -21,69 +22,20 @@ class ProductPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(90),
+        child: CommonAppBar(iscartPage: false, title: 'Products', text: 'Product & Customer Credentials',)
+      ),
       body: Padding(
         padding: EdgeInsets.only(
           left: width * 0.05,
-          top: height * 0.06,
           right: width * 0.05,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Title Row
-            Row(
-              children: [
-                const Text(
-                  'Products',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 30,
-                    color: Color.fromRGBO(11, 34, 62, 1),
-                  ),
-                ),
-                const Spacer(),
-                GestureDetector(
-                  child: Container(
-                    child: SvgPicture.asset('assets/images/sign-out-alt.svg'),
-                    height: 30,
-                  ),
-                  onTap: () {
-                    Get.defaultDialog(
-                      title: "Log Out",
-                      content: const Text("Are you sure you want to logout?"),
-                      textConfirm: "Yes",
-                      textCancel: "No",
-                      onConfirm: () {
-                        pushNamed(routeName: RoutesName.loginPage);
-                      },
-                    );
-                  },
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Badge(
-                  label: Text('2'),
-                  child: const Icon(
-                    Icons.shopping_bag_outlined,
-                    size: 30,
-                    color: Color.fromRGBO(11, 34, 62, 1),
-                  ),
-                ),
-              ],
-            ),
-
-            Padding(
-              padding: EdgeInsets.only(top: height * 0.01),
-              child: const Text(
-                'Product & Customer Credentials',
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                  color: Color.fromRGBO(75, 75, 75, 1),
-                ),
-              ),
-            ),
+            
 
             Padding(
               padding: EdgeInsets.only(top: height * 0.020),

@@ -7,6 +7,7 @@ import 'package:ez_navy_app/jwt_builder.dart';
 import 'package:ez_navy_app/model/user_model/user_model.dart';
 import 'package:ez_navy_app/routes/routes.dart';
 import 'package:ez_navy_app/routes/routes_names.dart';
+import 'package:ez_navy_app/services/api/http_services.dart';
 import 'package:ez_navy_app/services/auth/auth_services.dart';
 import 'package:ez_navy_app/widgets/modal.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,51 @@ import 'package:http/http.dart' as http;
 
 class AuthController extends GetxController {
 
-  
+  final timeoutDuration = const Duration(seconds: 90);
+  var isLogin = true.obs;
   var isLoading = false.obs;
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController newUserNameController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
+  var userName = ''.obs;
+  var password = ''.obs;
+
+  void changeAuthType(){
+    print('Changing Aut Type $isLogin');
+    isLogin.value = !isLogin.value;
+  }
+
+  Future<void> registration() async {
+
+    final String newUserName = newUserNameController.text;
+    final String password = passwordController.text;
+    final String confirmPassword = confirmPasswordController.text;
+
+    if( newUserName.isEmpty || password.isEmpty || confirmPassword.isEmpty){
+
+      showError('All fields are required');
+    }else{
+      
+      
+      try {
+        final response = await http.get(
+          Uri.parse('https://67ab131865ab088ea7e88ae4.mockapi.io/api/v2/UserCredentials'),
+        );
+        if (response.statusCode == 200){
+          final data = jsonDecode(response.body);
+          print(response.body);
+        }
+      }catch(e){
+        print(e);
+      }finally{
+        
+      }
+      
+    }
+
+  }
 
   Future<void> login() async {
     final String username = usernameController.text;

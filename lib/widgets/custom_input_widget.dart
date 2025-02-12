@@ -10,8 +10,10 @@ class CustomInputWidget extends StatefulWidget{
   final double height;
   final double width;
   final IconData? inputIcon;
+  final String? newErrorText;
 
   const CustomInputWidget({
+    this.newErrorText,
     required this.controller,
     required this.hintText,
     this.isPassword = false,
@@ -31,13 +33,9 @@ class CustomInputWidgetState extends State<CustomInputWidget>{
   bool _obscureText = true;
   String? _errorText;
 
-  void validate(){
-    setState(() {
-      _errorText = widget.validator != null ? widget.validator!(widget.controller.text) : null;
-    });
-  }
   @override
   Widget build(BuildContext context) {
+    
     return
     Column(
       children: [

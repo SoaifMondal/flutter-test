@@ -1,4 +1,5 @@
 import 'package:ez_navy_app/main.dart';
+import 'package:ez_navy_app/pages/cart_page.dart';
 import 'package:ez_navy_app/pages/product_page.dart';
 import 'package:ez_navy_app/pages/login_page.dart';
 import 'package:ez_navy_app/pages/product_details.dart';
@@ -29,6 +30,10 @@ class OnGeneratedRoutes {
       case RoutesName.productFilter:
         return MaterialPageRoute(
           builder: (_) => const ProductFilterPage(),
+        );
+      case RoutesName.cartPage:
+        return MaterialPageRoute(
+          builder: (_) =>  CartPage(), 
         );
 
       default:
