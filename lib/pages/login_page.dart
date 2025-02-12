@@ -70,36 +70,34 @@ class FormSection extends StatelessWidget {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            controller.isLogin.value
-                ? CustomInputWidget(
+            Form(
+              key: controller.loginFormKey,
+              child: Column(
+                children: [
+                  CustomInputWidget(
                     controller: controller.usernameController,
                     hintText: 'Username',
-                    validator: (value) => value == null || value.isEmpty
-                        ? 'Username is required'
-                        : null,
-                    height: height * 0.070,
-                    width: width * 0.92,
-                  )
-                : CustomInputWidget(
-                    controller: controller.newUserNameController,
-                    hintText: 'Username',
-                    validator: (value) => value == null || value.isEmpty
-                        ? 'Username is required'
-                        : null,
+                    validator: (value) => controller.validateEmail(value),
+                    onChanged: (value) => null,
+                    errorText: controller.emailErrorText.value,
                     height: height * 0.070,
                     width: width * 0.92,
                   ),
-            SizedBox(height: height * 0.020),
-            CustomInputWidget(
-              controller: controller.passwordController,
-              hintText: 'Password',
-              isPassword: true,
-              validator: (value) => value == null || value.isEmpty
-                  ? 'Password is required'
-                  : null,
-              height: height * 0.070,
-              width: width * 0.92,
+                  SizedBox(height: height * 0.020),
+                  CustomInputWidget(
+                    controller: controller.passwordController,
+                    hintText: 'Password',
+                    isPassword: true,
+                    validator: (value) => controller.validatePassword(value),
+                    onChanged: (value) => null,
+                    errorText: controller.passwordError.value,
+                    height: height * 0.070,
+                    width: width * 0.92,
+                  ),
+                ],
+              ),
             ),
+
             if (controller.isLogin.value == false) ...[
               SizedBox(height: height * 0.020),
               CustomInputWidget(
@@ -154,7 +152,7 @@ class FormSection extends StatelessWidget {
                 ),
               ),
             ],
-
+            
             if (controller.isLogin.value == false) ...[
               SizedBox(height: height * 0.015),
               SizedBox(

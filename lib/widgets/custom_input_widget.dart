@@ -2,21 +2,22 @@
 import 'package:flutter/material.dart';
 
 class CustomInputWidget extends StatefulWidget{
-
   final TextEditingController controller;
   final String hintText;
   final bool isPassword;
+  final String? Function(String?)? onChanged; 
   final String? Function(String?)? validator;
   final double height;
   final double width;
   final IconData? inputIcon;
-  final String? newErrorText;
+  final String? errorText;
 
   const CustomInputWidget({
-    this.newErrorText,
+    this.errorText,
     required this.controller,
     required this.hintText,
     this.isPassword = false,
+    this.onChanged,
     this.validator,
     required this.height,
     required this.width,
@@ -49,11 +50,8 @@ class CustomInputWidgetState extends State<CustomInputWidget>{
           ),
           child: TextFormField(
             controller: widget.controller,
-            onChanged: (value) {
-              setState(() {
-                _errorText = widget.validator != null ? widget.validator!(value) : null;
-              });
-            },
+            validator: widget.validator,
+            onChanged: widget.onChanged,
             decoration: InputDecoration(
               isDense: true,
               hintText: widget.hintText, // Use hintText instead of labelText
@@ -89,11 +87,11 @@ class CustomInputWidgetState extends State<CustomInputWidget>{
             obscureText: widget.isPassword && _obscureText,
           ),
         ),
-        if (_errorText != null)
+        if (widget.errorText != null)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
             child: Text(
-              _errorText!,
+              widget.errorText!,
               style: const TextStyle(color: Colors.red),
             ),
           ),

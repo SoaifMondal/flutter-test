@@ -6,17 +6,18 @@ class ProductArgument{
 }
 
 mixin InputValidationMixin {
+
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email is required';
     }
-    // Use a regex to check if the entered email is valid.
     if (!GetUtils.isEmail(value)) {
       return 'Please enter a valid email';
     }
     return null;
   }
 
+  // ✅ Validate Password
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Password is required';
