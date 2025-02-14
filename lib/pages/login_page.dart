@@ -74,6 +74,7 @@ class FormSection extends StatelessWidget {
               key: controller.loginFormKey,
               child: Column(
                 children: [
+
                   CustomInputWidget(
                     controller: controller.usernameController,
                     hintText: 'Username',
@@ -97,7 +98,6 @@ class FormSection extends StatelessWidget {
                 ],
               ),
             ),
-
             if (controller.isLogin.value == false) ...[
               SizedBox(height: height * 0.020),
               CustomInputWidget(
@@ -152,7 +152,6 @@ class FormSection extends StatelessWidget {
                 ),
               ),
             ],
-            
             if (controller.isLogin.value == false) ...[
               SizedBox(height: height * 0.015),
               SizedBox(
@@ -173,16 +172,19 @@ class FormSection extends StatelessWidget {
                   child: const Text('Register'),
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               InkWell(
-                onTap: ()=> controller.changeAuthType(),
-                child: const Text('Login to existing account', 
-                style: TextStyle(
-                  color: Color.fromRGBO(11, 34, 62, 1),
-                  fontSize: 16,
-                  decoration: TextDecoration.underline,
-                  decorationThickness: 1
-                ),),
+                onTap: () => controller.changeAuthType(),
+                child: const Text(
+                  'Login to existing account',
+                  style: TextStyle(
+                      color: Color.fromRGBO(11, 34, 62, 1),
+                      fontSize: 16,
+                      decoration: TextDecoration.underline,
+                      decorationThickness: 1),
+                ),
               ),
             ]
           ],

@@ -42,6 +42,8 @@ class AuthController extends GetxController with InputValidationMixin{
 
   Future<void> login() async {
 
+    validateForm();
+
     final String username = usernameController.text;
     final String password = passwordController.text;
 
