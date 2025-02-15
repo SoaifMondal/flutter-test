@@ -1,24 +1,16 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:ui';
-
 import 'package:ez_navy_app/global_data/global_data.dart';
-import 'package:ez_navy_app/jwt_builder.dart';
-import 'package:ez_navy_app/model/user_model/user_model.dart';
 import 'package:ez_navy_app/routes/routes.dart';
 import 'package:ez_navy_app/routes/routes_names.dart';
-import 'package:ez_navy_app/services/api/http_services.dart';
-import 'package:ez_navy_app/services/auth/auth_services.dart';
 import 'package:ez_navy_app/utils/core.dart';
-import 'package:ez_navy_app/widgets/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-
-class AuthController extends GetxController with InputValidationMixin{
-
+class AuthController extends GetxController with InputValidationMixin {
   var loginFormKey = GlobalKey<FormState>();
+  var registrationFormKey = GlobalKey<FormState>();
+
   final timeoutDuration = const Duration(seconds: 90);
   var isLogin = true.obs;
   var isLoading = false.obs;
@@ -27,12 +19,15 @@ class AuthController extends GetxController with InputValidationMixin{
   final TextEditingController passwordController = TextEditingController();
 
   final TextEditingController newUserNameController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController newUserPasswordController =
+      TextEditingController();
+  final TextEditingController newUserconfirmPasswordController =
+      TextEditingController();
 
   var emailErrorText = RxnString();
   var passwordError = RxnString();
 
-  void changeAuthType(){
+  void changeAuthType() {
     isLogin.value = !isLogin.value;
   }
 
@@ -41,7 +36,6 @@ class AuthController extends GetxController with InputValidationMixin{
   }
 
   Future<void> login() async {
-
     validateForm();
 
     final String username = usernameController.text;
@@ -50,9 +44,9 @@ class AuthController extends GetxController with InputValidationMixin{
     emailErrorText.value = validateEmail(username);
     passwordError.value = validatePassword(password);
 
-    if (emailErrorText.value == null && passwordError.value == null ) {
+    if (emailErrorText.value == null && passwordError.value == null) {
       isLoading.value = true;
-      
+
       try {
         final response = await http.post(
           Uri.parse('https://app.ef-tm.com/v1//public/login'),
@@ -82,32 +76,28 @@ class AuthController extends GetxController with InputValidationMixin{
     }
   }
 
-
   Future<void> registration() async {
+    registrationFormKey.currentState?.validate();
 
-    final String newUserName = newUserNameController.text;
-    final String password = passwordController.text;
-    final String confirmPassword = confirmPasswordController.text;
+    final String userName = newUserNameController.text;
+    final String password = newUserPasswordController.text;
+    final String confirmPassword = newUserconfirmPasswordController.text;
 
-    if( newUserName.isEmpty || password.isEmpty || confirmPassword.isEmpty){
-
+    if (userName.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       showError('All fields are required');
-    }else{
-      
+    } else {
       try {
         final response = await http.get(
-          Uri.parse('https://67ab131865ab088ea7e88ae4.mockapi.io/api/v2/UserCredentials'),
+          Uri.parse(
+              'https://67ab131865ab088ea7e88ae4.mockapi.io/api/v2/UserCredentials'),
         );
-        if (response.statusCode == 200){
+        if (response.statusCode == 200) {
           final data = jsonDecode(response.body);
           print(response.body);
         }
-      }catch(e){
+      } catch (e) {
         print(e);
-      }finally{
-        
-      }
-      
+      } finally {}
     }
   }
 
@@ -121,5 +111,4 @@ class AuthController extends GetxController with InputValidationMixin{
       duration: const Duration(seconds: 3),
     );
   }
-
 }

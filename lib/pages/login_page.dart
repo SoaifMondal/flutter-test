@@ -70,47 +70,80 @@ class FormSection extends StatelessWidget {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Form(
-              key: controller.loginFormKey,
-              child: Column(
-                children: [
-
-                  CustomInputWidget(
-                    controller: controller.usernameController,
-                    hintText: 'Username',
-                    validator: (value) => controller.validateEmail(value),
-                    onChanged: (value) => null,
-                    errorText: controller.emailErrorText.value,
-                    height: height * 0.070,
-                    width: width * 0.92,
-                  ),
-                  SizedBox(height: height * 0.020),
-                  CustomInputWidget(
-                    controller: controller.passwordController,
-                    hintText: 'Password',
-                    isPassword: true,
-                    validator: (value) => controller.validatePassword(value),
-                    onChanged: (value) => null,
-                    errorText: controller.passwordError.value,
-                    height: height * 0.070,
-                    width: width * 0.92,
-                  ),
-                ],
-              ),
-            ),
-            if (controller.isLogin.value == false) ...[
-              SizedBox(height: height * 0.020),
-              CustomInputWidget(
-                controller: controller.confirmPasswordController,
-                hintText: 'Confirm Password',
-                isPassword: true,
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Confirm password is required'
-                    : null,
-                height: height * 0.070,
-                width: width * 0.92,
-              ),
-            ],
+            controller.isLogin.value == true
+                ? Form(
+                    key: controller.loginFormKey,
+                    child: Column(
+                      children: [
+                        CustomInputWidget(
+                          controller: controller.usernameController,
+                          hintText: 'Email id',
+                          validator: (value) => controller.validateEmail(value),
+                          onChanged: (value) => null,
+                          errorText: controller.emailErrorText.value,
+                          height: height * 0.070,
+                          width: width * 0.92,
+                        ),
+                        SizedBox(height: height * 0.020),
+                        CustomInputWidget(
+                          controller: controller.passwordController,
+                          hintText: 'Password',
+                          isPassword: true,
+                          validator: (value) =>
+                              controller.validatePassword(value),
+                          onChanged: (value) => null,
+                          errorText: controller.passwordError.value,
+                          height: height * 0.070,
+                          width: width * 0.92,
+                        ),
+                      ],
+                    ),
+                  )
+                : Form(
+                    key: controller.registrationFormKey,
+                    child: Column(
+                      children: [
+                        CustomInputWidget(
+                          controller: controller.newUserNameController,
+                          hintText: 'Email id',
+                          validator: (value) => controller.validateEmail(value),
+                          onChanged: (value) => null,
+                          errorText: controller.emailErrorText.value,
+                          height: height * 0.070,
+                          width: width * 0.92,
+                        ),
+                        SizedBox(height: height * 0.020),
+                        CustomInputWidget(
+                          controller: controller.newUserPasswordController,
+                          hintText: 'Password',
+                          validator: (value) =>
+                              controller.validatePassword(value),
+                          onChanged: (value) => null,
+                          errorText: controller.emailErrorText.value,
+                          height: height * 0.070,
+                          width: width * 0.92,
+                        ),
+                        SizedBox(height: height * 0.020),
+                        CustomInputWidget(
+                          controller:
+                              controller.newUserconfirmPasswordController,
+                          hintText: 'Confirm Password',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'confirm password requried';
+                            }
+                            return value ==
+                                    controller.newUserPasswordController.text
+                                ? null
+                                : 'Confirm password should match with password';
+                          },
+                          onChanged: (value) => null,
+                          errorText: controller.emailErrorText.value,
+                          height: height * 0.070,
+                          width: width * 0.92,
+                        ),
+                      ],
+                    )),
             SizedBox(height: height * 0.020),
             if (controller.isLogin.value == true) ...[
               controller.isLoading.value
@@ -160,8 +193,8 @@ class FormSection extends StatelessWidget {
                 child: TextButton(
                   onPressed: controller.registration,
                   style: TextButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: const Color.fromRGBO(11, 34, 62, 1),
+                      backgroundColor: const Color.fromRGBO(11, 34, 62, 1),
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
@@ -172,7 +205,7 @@ class FormSection extends StatelessWidget {
                   child: const Text('Register'),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               InkWell(
