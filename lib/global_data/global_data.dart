@@ -13,6 +13,7 @@ class GlobalDataManager {
 
   String? _jwtJsonToken;
   UserModel? _userProfile;
+  String? _userId;
 
   factory GlobalDataManager() {
     return _instance;
@@ -30,6 +31,21 @@ class GlobalDataManager {
       // Handle initialization error (e.g., log it)
       print('Initialization error: $e');
     }
+  }
+
+  Future<void> _loadUserId() async{
+    _userId = await _prefsHelper.getuserId();
+    print('userID: ${_userId}');
+  }
+
+  Future<void> setuserId(String userId) async{
+    _userId = userId;
+    await _prefsHelper.setUserId(userId);
+  }
+
+  Future<void> removeUserId()async{
+    _userId = '';
+    _prefsHelper.removeUserId();
   }
 
   Future<void> _loadJwtJsonToken() async {

@@ -16,6 +16,23 @@ class SharedPrefsHelper {
 
   static const String _userDataKey = 'ezNavyuserData';
 
+  static const String _userIdKey = 'ezNavyuserData';
+
+  Future<void> setUserId(String userID) async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString(_userDataKey, userID);
+  }
+
+  Future<String?> getuserId() async {
+    final pref = await SharedPreferences.getInstance();
+    return pref.getString(_userIdKey);
+  }
+
+  Future<void> removeUserId() async{
+    final pref = await SharedPreferences.getInstance();
+    await pref.remove(_userDataKey);
+  }
+
   // Save, Get, Remove JWT token
   Future<void> setJwtJsonToken(String token) async {
     final prefs = await SharedPreferences.getInstance();

@@ -80,7 +80,6 @@ class FormSection extends StatelessWidget {
                           hintText: 'Email id',
                           validator: (value) => controller.validateEmail(value),
                           onChanged: (value) => null,
-                          errorText: controller.emailErrorText.value,
                           height: height * 0.070,
                           width: width * 0.92,
                         ),
@@ -92,7 +91,6 @@ class FormSection extends StatelessWidget {
                           validator: (value) =>
                               controller.validatePassword(value),
                           onChanged: (value) => null,
-                          errorText: controller.passwordError.value,
                           height: height * 0.070,
                           width: width * 0.92,
                         ),
@@ -108,7 +106,6 @@ class FormSection extends StatelessWidget {
                           hintText: 'Email id',
                           validator: (value) => controller.validateEmail(value),
                           onChanged: (value) => null,
-                          errorText: controller.emailErrorText.value,
                           height: height * 0.070,
                           width: width * 0.92,
                         ),
@@ -119,7 +116,6 @@ class FormSection extends StatelessWidget {
                           validator: (value) =>
                               controller.validatePassword(value),
                           onChanged: (value) => null,
-                          errorText: controller.emailErrorText.value,
                           height: height * 0.070,
                           width: width * 0.92,
                         ),
@@ -138,7 +134,6 @@ class FormSection extends StatelessWidget {
                                 : 'Confirm password should match with password';
                           },
                           onChanged: (value) => null,
-                          errorText: controller.emailErrorText.value,
                           height: height * 0.070,
                           width: width * 0.92,
                         ),
@@ -187,24 +182,26 @@ class FormSection extends StatelessWidget {
             ],
             if (controller.isLogin.value == false) ...[
               SizedBox(height: height * 0.015),
-              SizedBox(
-                width: width * 0.92,
-                height: height * 0.070,
-                child: TextButton(
-                  onPressed: controller.registration,
-                  style: TextButton.styleFrom(
-                      backgroundColor: const Color.fromRGBO(11, 34, 62, 1),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      side: const BorderSide(
-                          color: Color.fromRGBO(11, 34, 62, 1), width: 2)),
-                  child: const Text('Register'),
+              controller.isLoading.value == true ? 
+                const CircularProgressIndicator(color: Color.fromRGBO(11, 32, 62, 1)) :
+                SizedBox(
+                  width: width * 0.92,
+                  height: height * 0.070,
+                  child: TextButton(
+                    onPressed: controller.registration,
+                    style: TextButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(11, 34, 62, 1),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        side: const BorderSide(
+                            color: Color.fromRGBO(11, 34, 62, 1), width: 2)),
+                    child: const Text('Register'),
+                  ),
                 ),
-              ),
               const SizedBox(
                 height: 10,
               ),
