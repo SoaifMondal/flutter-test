@@ -1,9 +1,9 @@
+import 'package:ez_navy_app/global_data/global_data.dart';
 import 'package:ez_navy_app/routes/routes.dart';
 import 'package:ez_navy_app/routes/routes_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class CommonAppBar extends StatelessWidget {
   final bool iscartPage;
@@ -62,6 +62,7 @@ class CommonAppBar extends StatelessWidget {
                         textConfirm: "Yes",
                         textCancel: "No",
                         onConfirm: () {
+                          GlobalDataManager().removeUserId();
                           pushNamed(routeName: RoutesName.loginPage);
                         },
                       );

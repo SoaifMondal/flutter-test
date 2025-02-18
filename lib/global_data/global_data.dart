@@ -1,7 +1,6 @@
 
 
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:ez_navy_app/model/user_model/user_model.dart';
 import 'package:ez_navy_app/services/shared_perps/shared_perps.dart';
@@ -27,6 +26,7 @@ class GlobalDataManager {
     try {
       await _loadJwtJsonToken();
       await _loadUserProfile();
+      await _loadUserId();
     } catch (e) {
       // Handle initialization error (e.g., log it)
       print('Initialization error: $e');
@@ -38,14 +38,18 @@ class GlobalDataManager {
     print('userID: ${_userId}');
   }
 
+  String? getUserId() {
+    return _userId;
+  }
+
   Future<void> setuserId(String userId) async{
     _userId = userId;
     await _prefsHelper.setUserId(userId);
   }
 
   Future<void> removeUserId()async{
-    _userId = '';
-    _prefsHelper.removeUserId();
+    _userId = null;
+    await _prefsHelper.removeUserId();
   }
 
   Future<void> _loadJwtJsonToken() async {

@@ -16,11 +16,11 @@ class SharedPrefsHelper {
 
   static const String _userDataKey = 'ezNavyuserData';
 
-  static const String _userIdKey = 'ezNavyuserData';
+  static const String _userIdKey = 'ezNavyuserID';
 
   Future<void> setUserId(String userID) async {
     final pref = await SharedPreferences.getInstance();
-    await pref.setString(_userDataKey, userID);
+    await pref.setString(_userIdKey, userID);
   }
 
   Future<String?> getuserId() async {
@@ -30,7 +30,7 @@ class SharedPrefsHelper {
 
   Future<void> removeUserId() async{
     final pref = await SharedPreferences.getInstance();
-    await pref.remove(_userDataKey);
+    await pref.remove(_userIdKey);
   }
 
   // Save, Get, Remove JWT token

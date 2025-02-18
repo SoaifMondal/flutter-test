@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color.fromRGBO(241, 245, 250, 1),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: GlobalDataManager().getJwtJsonToken() == null ?
+      initialRoute: GlobalDataManager().getUserId() == null ?
       RoutesName.loginPage : RoutesName.produtcsPage,
 
       onGenerateRoute: OnGeneratedRoutes.onGenerateRoute,

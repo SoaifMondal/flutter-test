@@ -9,8 +9,6 @@ import 'package:http/http.dart' as http;
 
 class AuthController extends GetxController with InputValidationMixin {
 
-  var a = 1;
-
   var loginFormKey = GlobalKey<FormState>();
   var registrationFormKey = GlobalKey<FormState>();
 
@@ -33,38 +31,47 @@ class AuthController extends GetxController with InputValidationMixin {
   }
 
   Future<void> login() async {
-    loginFormKey.currentState?.validate();
+
+    var userCredintialMatched = false;
+    String? userId;
 
     final String username = usernameController.text;
     final String password = passwordController.text;
 
-    if (a==2) {
-      isLoading.value = true;
+    if (loginFormKey.currentState?.validate() ?? false) {
 
-      try {
-        final response = await http.post(
-          Uri.parse('https://app.ef-tm.com/v1//public/login'),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({"email": username, "password": password}),
-        );
+      showLoader();
 
+      try{
+        final response = await http.get(Uri.parse('https://67ab131865ab088ea7e88ae4.mockapi.io/api/v2/UserCredentials'));
         if (response.statusCode == 200) {
           final data = jsonDecode(response.body);
-          if (data['data']['user']['accessToken'] != null) {
-            final token = data['data']['user']['accessToken'];
-            GlobalDataManager().setJwtJsonToken(token);
-            pushReplacement(routeName: RoutesName.produtcsPage);
-          } else {
-            showError('Login failed. Please check your credentials.');
+          // print(response.body);
+          for(var user in data){
+            if(user['useremail'] == username && user['password'] == password){
+              userCredintialMatched = true;
+              userId = user['id'];
+              break;
+            }
           }
-        } else if (response.statusCode == 412) {
-          showError('Login failed. Please enter correct user details.');
+          if(userCredintialMatched == true && userId != null){
+            await GlobalDataManager().setuserId(userId);
+            hideLoader();
+            pushReplacement(routeName: RoutesName.produtcsPage);
+          }else{
+            hideLoader();
+            showError('Wrong user credentials');
+            return;
+          }
+        }else{
+          hideLoader();
+          showError('Login faild');
         }
-      } catch (e) {
-        showError('An error occurred. Please try again.');
-      } finally {
-        isLoading.value = false;
-      }
+      }catch(e){
+        print('An error uquried while login. $e');
+        hideLoader();
+      }finally{}
+
     } else {
       showError('Valid Username and Password are required.');
     }
@@ -75,11 +82,10 @@ class AuthController extends GetxController with InputValidationMixin {
     var userNameExit = false;
     final String newUserName = newUserNameController.text;
     final String newUserPassword = newUserPasswordController.text;
-    final String newUserConfirmPassword = newUserconfirmPasswordController.text;
 
     if ( registrationFormKey.currentState?.validate() ?? false) {
 
-      //showLoader();
+      showLoader();
 
       try {
         final response = await http.get(
@@ -93,17 +99,18 @@ class AuthController extends GetxController with InputValidationMixin {
             if(user['useremail'] == newUserName){
               userNameExit = true;
               showError('Email id already exits.');
+              hideLoader();
               break;
             }
           }
         }
       } catch (e) {
-        print(e);
+        // print(e);
       } finally {}
 
     if(!userNameExit){
-      try {
 
+      try {
         Map<String, String> bodyData = {
           'useremail': newUserName,
           'password': newUserPassword
@@ -118,10 +125,18 @@ class AuthController extends GetxController with InputValidationMixin {
 
         if (response.statusCode == 201) {
           final data = jsonDecode(response.body);
-          print(data);
+          // print(data);
+          final userId = data['id'];
+          // print('userID: ${userId}');
+          
+          hideLoader();
+          await GlobalDataManager().setuserId(userId);
+          pushReplacement(routeName: RoutesName.produtcsPage);
+
         }
       } catch (e) {
         print(e);
+        hideLoader();
       } finally {}
     }
 
