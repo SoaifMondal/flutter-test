@@ -108,39 +108,34 @@ class AuthController extends GetxController with InputValidationMixin {
         // print(e);
       } finally {}
 
-    if(!userNameExit){
+      if(!userNameExit){
+        try {
+          Map<String, String> bodyData = {
+            'useremail': newUserName,
+            'password': newUserPassword
+          };
+          final response = await http.post(
+            Uri.parse(
+                'https://67ab131865ab088ea7e88ae4.mockapi.io/api/v2/UserCredentials'),
+                headers: {'Content-Type': 'application/json'},
+                body: jsonEncode(bodyData)
+          );
 
-      try {
-        Map<String, String> bodyData = {
-          'useremail': newUserName,
-          'password': newUserPassword
-        };
-
-        final response = await http.post(
-          Uri.parse(
-              'https://67ab131865ab088ea7e88ae4.mockapi.io/api/v2/UserCredentials'),
-              headers: {'Content-Type': 'application/json'},
-              body: jsonEncode(bodyData)
-        );
-
-        if (response.statusCode == 201) {
-          final data = jsonDecode(response.body);
-          // print(data);
-          final userId = data['id'];
-          // print('userID: ${userId}');
-          
+          if (response.statusCode == 201) {
+            final data = jsonDecode(response.body);
+            // print(data);
+            final userId = data['id'];
+            // print('userID: ${userId}');
+            
+            hideLoader();
+            await GlobalDataManager().setuserId(userId);
+            pushReplacement(routeName: RoutesName.produtcsPage);
+          }
+        } catch (e) {
+          print(e);
           hideLoader();
-          await GlobalDataManager().setuserId(userId);
-          pushReplacement(routeName: RoutesName.produtcsPage);
-
-        }
-      } catch (e) {
-        print(e);
-        hideLoader();
-      } finally {}
-    }
-
-
+        } finally {}
+      }
 
     } else {
       showError('All fields are required');
@@ -161,7 +156,6 @@ class AuthController extends GetxController with InputValidationMixin {
 
 // Show Loader Function
 void showLoader() {
-
   Get.dialog(
     const PopScope(
       canPop: false, // Prevent back button

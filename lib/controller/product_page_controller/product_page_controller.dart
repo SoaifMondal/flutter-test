@@ -6,7 +6,6 @@ import 'dart:convert';
 
 class ProductPageController extends GetxController {
 
-
   var products = <ProductModel>[].obs;
   var categories = <String>[].obs;
   var isLoading = false.obs;
@@ -37,16 +36,6 @@ class ProductPageController extends GetxController {
 
     if (response.statusCode == 200) {
       var fetchedProducts = json.decode(response.body);
-      
-      // Filter products based on search query
-      // if (searchQuery.value.isNotEmpty) {
-      //   fetchedProducts = fetchedProducts
-      //       .where((product) => product['title']
-      //           .toString()
-      //           .toLowerCase()
-      //           .contains(searchQuery.value.toLowerCase()))
-      //       .toList();
-      // }
 
       if(fetchedProducts is List){
         print('product length ${fetchedProducts.length}');
@@ -80,14 +69,14 @@ class ProductPageController extends GetxController {
     fetchProducts();
   }
 
-  // void updateSearchQuery(String query) {
-  //   searchQuery.value = query;
-  //   fetchProducts();
-  // }
+  Future<void> addTocart(int? id) async{
+    
+  }
 
   @override
   void onClose() {
     searchController.dispose();
     super.onClose();
   }
+  
 }

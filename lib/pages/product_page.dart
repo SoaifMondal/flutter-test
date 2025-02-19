@@ -171,62 +171,59 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        pushNamed(
-            routeName: RoutesName.productDetailsPage,
-            arguments: ProductArgument(productID: product.id));
-        //Get.toNamed('/product-details', arguments: ProductArgument(productID: product.id));
-        //Navigator.pushNamed( context, RoutesName.productDetailsPage, arguments: ProductArgument(productID: product.id), );
-        print('Product id: ${product.id}');
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 50,
-              ),
-              Center(
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 50,
+            ),
+            InkWell(
+              onTap: () {
+                pushNamed(
+                    routeName: RoutesName.productDetailsPage,
+                    arguments: ProductArgument(productID: product.id));
+              },
+              child: Center(
                   child: Image.network(product.image,
                       height: 100, fit: BoxFit.cover)),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(product.title, maxLines: 2, overflow: TextOverflow.ellipsis),
-              const SizedBox(
-                height: 20,
-              ),
-              Text('\$${product.price}',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
-                    side: const BorderSide(
-                      color: Color.fromRGBO(11, 34, 62, 1),
-                      width: 2,
-                    ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(product.title, maxLines: 2, overflow: TextOverflow.ellipsis),
+            const SizedBox(
+              height: 20,
+            ),
+            Text('\$${product.price}',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: null,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                  side: const BorderSide(
+                    color: Color.fromRGBO(11, 34, 62, 1),
+                    width: 2,
                   ),
                 ),
-                child: const Text('Add To Cart',
-                    style: TextStyle(
-                      color: Color.fromRGBO(11, 34, 62, 1),
-                    )),
               ),
-            ],
-          ),
+              child: const Text('Add To Cart',
+                  style: TextStyle(
+                    color: Color.fromRGBO(11, 34, 62, 1),
+                  )),
+            ),
+          ],
         ),
       ),
     );
