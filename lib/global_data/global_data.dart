@@ -24,8 +24,8 @@ class GlobalDataManager {
 
   Future<void> initialize() async {
     try {
-      await _loadJwtJsonToken();
-      await _loadUserProfile();
+      // await _loadJwtJsonToken();
+      // await _loadUserProfile();
       await _loadUserId();
     } catch (e) {
       // Handle initialization error (e.g., log it)
@@ -35,7 +35,6 @@ class GlobalDataManager {
 
   Future<void> _loadUserId() async{
     _userId = await _prefsHelper.getuserId();
-    print('userID: ${_userId}');
   }
 
   String? getUserId() {
@@ -43,8 +42,8 @@ class GlobalDataManager {
   }
 
   Future<void> setuserId(String userId) async{
-    _userId = userId;
     await _prefsHelper.setUserId(userId);
+    _userId = userId;
   }
 
   Future<void> removeUserId()async{

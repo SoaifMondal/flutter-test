@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    String? token = GlobalDataManager().getJwtJsonToken();
-    print("JWT Token: $token"); // Debugging
+    String? token = GlobalDataManager().getUserId();
+    print("User ID: $token"); // Debugging
 
     return GetMaterialApp(
       title: 'Flutter Login Demo',

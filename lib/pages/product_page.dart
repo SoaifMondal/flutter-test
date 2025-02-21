@@ -167,7 +167,8 @@ class ProductPage extends StatelessWidget {
 
 class ProductCard extends StatelessWidget {
   final ProductModel product;
-  const ProductCard({required this.product});
+  final ProductPageController controller = Get.put(ProductPageController());
+  ProductCard({required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +208,7 @@ class ProductCard extends StatelessWidget {
               height: 20,
             ),
             ElevatedButton(
-              onPressed: null,
+              onPressed: ()=> controller.addTocart(product.id),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(

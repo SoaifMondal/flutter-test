@@ -1,13 +1,16 @@
-import 'dart:convert';
+import 'package:ez_navy_app/constant/api_url.dart';
 import 'package:ez_navy_app/global_data/global_data.dart';
+import 'package:ez_navy_app/model/api_base_data_model.dart';
 import 'package:ez_navy_app/routes/routes.dart';
 import 'package:ez_navy_app/routes/routes_names.dart';
+import 'package:ez_navy_app/services/api/http_services.dart';
 import 'package:ez_navy_app/utils/core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class AuthController extends GetxController with InputValidationMixin {
+
+  HttpService httpService = HttpService();
 
   var loginFormKey = GlobalKey<FormState>();
   var registrationFormKey = GlobalKey<FormState>();
@@ -30,146 +33,107 @@ class AuthController extends GetxController with InputValidationMixin {
     isLogin.value = !isLogin.value;
   }
 
+  // Login function
   Future<void> login() async {
 
     var userCredintialMatched = false;
     String? userId;
-
     final String username = usernameController.text;
     final String password = passwordController.text;
 
     if (loginFormKey.currentState?.validate() ?? false) {
 
       showLoader();
+      
+      final registeredUserData = await httpService.apiGetRequest(ApiUrls.baseUrl+ ApiUrls.usreCredentials);
 
-      try{
-        final response = await http.get(Uri.parse('https://67ab131865ab088ea7e88ae4.mockapi.io/api/v2/UserCredentials'));
-        if (response.statusCode == 200) {
-          final data = jsonDecode(response.body);
-          // print(response.body);
-          for(var user in data){
-            if(user['useremail'] == username && user['password'] == password){
-              userCredintialMatched = true;
-              userId = user['id'];
-              break;
-            }
+      if(registeredUserData.status == true){
+        final data = registeredUserData.data;
+        for(var user in data){
+          if(user['useremail'] == username && user['password'] == password){
+            userId = user['id'];
+            userCredintialMatched = true;
+            break;
           }
-          if(userCredintialMatched == true && userId != null){
-            await GlobalDataManager().setuserId(userId);
+        }
+
+        if(userCredintialMatched == true){
+          await GlobalDataManager().setuserId(userId!);
             hideLoader();
             pushReplacement(routeName: RoutesName.produtcsPage);
-          }else{
-            hideLoader();
-            showError('Wrong user credentials');
-            return;
-          }
         }else{
           hideLoader();
-          showError('Login faild');
+          showError('wrong user credentials');
         }
-      }catch(e){
-        print('An error uquried while login. $e');
+
+      }else{
         hideLoader();
-      }finally{}
+        showError(registeredUserData.errorMessage!);
+      }
 
     } else {
       showError('Valid Username and Password are required.');
     }
   }
 
+  // Registration function 
   Future<void> registration() async {
 
     var userNameExit = false;
+    String userId;
     final String newUserName = newUserNameController.text;
     final String newUserPassword = newUserPasswordController.text;
 
     if ( registrationFormKey.currentState?.validate() ?? false) {
 
       showLoader();
+      
+      final ApiBaseDataModel registeredUserData = await httpService.apiGetRequest(ApiUrls.baseUrl+ ApiUrls.usreCredentials);
+      // print('user data: ${registeredUserData.data}');
+      // print('API status: ${registeredUserData.status}');
 
-      try {
-        final response = await http.get(
-          Uri.parse(
-              'https://67ab131865ab088ea7e88ae4.mockapi.io/api/v2/UserCredentials'),
-        );
-        if (response.statusCode == 200) {
-          final data = jsonDecode(response.body);
-          // print(response.body);
-           for(var user in data){
+      if(registeredUserData.status == true){
+
+        final  data = registeredUserData.data;
+
+        for(var user in data){
             if(user['useremail'] == newUserName){
               userNameExit = true;
-              showError('Email id already exits.');
               hideLoader();
+              showError('Email id already exits.');
               break;
             }
           }
-        }
-      } catch (e) {
-        // print(e);
-      } finally {}
+      }else{
+        hideLoader();
+        showError(registeredUserData.errorMessage!);
+      }
 
-      if(!userNameExit){
-        try {
-          Map<String, String> bodyData = {
-            'useremail': newUserName,
-            'password': newUserPassword
-          };
-          final response = await http.post(
-            Uri.parse(
-                'https://67ab131865ab088ea7e88ae4.mockapi.io/api/v2/UserCredentials'),
-                headers: {'Content-Type': 'application/json'},
-                body: jsonEncode(bodyData)
-          );
+      if(userNameExit == false){
+        Map<String, String> bodyData = {
+          "useremail": newUserName,
+          "password": newUserPassword
+        };
+        final ApiBaseDataModel registerUser = await httpService.apiPostRequest(ApiUrls.baseUrl+ ApiUrls.usreCredentials, bodyData);
 
-          if (response.statusCode == 201) {
-            final data = jsonDecode(response.body);
-            // print(data);
-            final userId = data['id'];
-            // print('userID: ${userId}');
-            
-            hideLoader();
-            await GlobalDataManager().setuserId(userId);
-            pushReplacement(routeName: RoutesName.produtcsPage);
-          }
-        } catch (e) {
-          print(e);
+        if(registerUser.status == true){
+          
+          userId = registerUser.data['id'];
+          // print('Usre ID: ${userId}');
+          // print('Usre Data: ${registerUser.data}');
+
+          await GlobalDataManager().setuserId(userId);
+
           hideLoader();
-        } finally {}
+          pushReplacement(routeName: RoutesName.produtcsPage);
+        }else{
+          showError('an error happend, please try after some time');
+        }
       }
 
     } else {
       showError('All fields are required');
     }
-  }
-
-  void showError(String message) {
-    Get.snackbar(
-      "Error",
-      message,
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.red.withOpacity(0.8),
-      colorText: Colors.white,
-      duration: const Duration(seconds: 3),
-    );
-  }
-}
-
-// Show Loader Function
-void showLoader() {
-  Get.dialog(
-    const PopScope(
-      canPop: false, // Prevent back button
-      child: Center(
-        child: CircularProgressIndicator(),
-      ),
-    ),
-    barrierDismissible: false, // Prevent tapping outside to dismiss
-  );
-}
-
-// Hide Loader Function
-void hideLoader() {
-  if (Get.isDialogOpen ?? false) {
-    Get.back(); // Close the loader
+    
   }
 }
