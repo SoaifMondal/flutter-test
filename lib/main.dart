@@ -19,8 +19,6 @@ Future main() async {
       SystemUiOverlay.top,
     ],
   );
-  getXControllerInit();
-  await GlobalDataManager().initialize();
 
   runApp(const MyApp());
 }
@@ -33,21 +31,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    String? token = GlobalDataManager().getUserId();
-    print("User ID: $token"); // Debugging
-
     return GetMaterialApp(
-      title: 'Flutter Login Demo',
+      title: 'Soaif flutter test',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: const Color.fromRGBO(241, 245, 250, 1),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: GlobalDataManager().getUserId() == null ?
-      RoutesName.loginPage : RoutesName.produtcsPage,
+      initialRoute: RoutesName.userListingPage,
 
       onGenerateRoute: OnGeneratedRoutes.onGenerateRoute,
-      navigatorKey: navigatorKey,
+
       
     );
   }
@@ -58,7 +52,3 @@ class MyApp extends StatelessWidget {
 GlobalKey<ScaffoldMessengerState> globalMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-void getXControllerInit() {
-  Get.lazyPut(() => AuthController());
-}

@@ -4,6 +4,9 @@ import 'package:ez_navy_app/pages/product_page.dart';
 import 'package:ez_navy_app/pages/login_page.dart';
 import 'package:ez_navy_app/pages/product_details.dart';
 import 'package:ez_navy_app/pages/product_filterpage.dart';
+import 'package:ez_navy_app/pages/user_create_&_update_page.dart';
+import 'package:ez_navy_app/pages/user_details_page.dart';
+import 'package:ez_navy_app/pages/user_listing_page.dart';
 import 'package:ez_navy_app/routes/routes_names.dart';
 import 'package:ez_navy_app/utils/core.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +37,23 @@ class OnGeneratedRoutes {
       case RoutesName.cartPage:
         return MaterialPageRoute(
           builder: (_) =>  CartPage(), 
+        );
+
+      case RoutesName.userListingPage:
+        return MaterialPageRoute(
+          builder: (_) =>  UserListinPage(), 
+        );
+      case RoutesName.userDetailspage:
+        return MaterialPageRoute(
+          builder: (_) =>  UserDetailsPage(userID: args), 
+        );
+      case RoutesName.userCreatePage:
+        return MaterialPageRoute(
+          builder: (_) =>  UsercreateUpadtePage(type: true), 
+        );
+      case RoutesName.userUpdatePage:
+        return MaterialPageRoute(
+          builder: (_) =>  UsercreateUpadtePage(type: false), 
         );
 
       default:

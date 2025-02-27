@@ -20,6 +20,19 @@ mixin InputValidationMixin {
     return null;
   }
 
+String? validateName(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'name is required';
+  }
+
+  if (value is! String) {
+    return 'Invalid input';
+  }
+
+  return null; // Valid input
+}
+
+
   // ✅ Validate Password
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
