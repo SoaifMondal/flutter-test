@@ -1,9 +1,5 @@
 import 'package:ez_navy_app/main.dart';
-import 'package:ez_navy_app/pages/cart_page.dart';
-import 'package:ez_navy_app/pages/product_page.dart';
-import 'package:ez_navy_app/pages/login_page.dart';
-import 'package:ez_navy_app/pages/product_details.dart';
-import 'package:ez_navy_app/pages/product_filterpage.dart';
+import 'package:ez_navy_app/model/user_model.dart';
 import 'package:ez_navy_app/pages/user_create_&_update_page.dart';
 import 'package:ez_navy_app/pages/user_details_page.dart';
 import 'package:ez_navy_app/pages/user_listing_page.dart';
@@ -16,45 +12,29 @@ class OnGeneratedRoutes {
     final args = route.arguments;
 
     switch (route.name) {
-      case RoutesName.loginPage:
-        return MaterialPageRoute(
-          builder: (_) => const LoginPage(),
-        );
-      case RoutesName.produtcsPage:
-        return MaterialPageRoute(
-          builder: (_) => ProductPage(),
-        );
-      case RoutesName.productDetailsPage:
-        if (args is ProductArgument) {
-          return MaterialPageRoute(
-            builder: (_) => ProductDetailsPage(productArgument: args),
-          );
-        }
-      case RoutesName.productFilter:
-        return MaterialPageRoute(
-          builder: (_) => const ProductFilterPage(),
-        );
-      case RoutesName.cartPage:
-        return MaterialPageRoute(
-          builder: (_) =>  CartPage(), 
-        );
-
       case RoutesName.userListingPage:
         return MaterialPageRoute(
-          builder: (_) =>  UserListinPage(), 
+          builder: (_) => UserListinPage(),
         );
       case RoutesName.userDetailspage:
-        return MaterialPageRoute(
-          builder: (_) =>  UserDetailsPage(userID: args), 
-        );
+        if (args is UsersModel) {
+          return MaterialPageRoute(
+            builder: (_) => UserDetailsPage(userID: args),
+          );
+        }
       case RoutesName.userCreatePage:
         return MaterialPageRoute(
-          builder: (_) =>  UsercreateUpadtePage(type: true), 
+          builder: (_) => UsercreateUpadtePage(type: true),
         );
       case RoutesName.userUpdatePage:
-        return MaterialPageRoute(
-          builder: (_) =>  UsercreateUpadtePage(type: false), 
-        );
+        if (args is UsersModel) {
+          return MaterialPageRoute(
+            builder: (_) => UsercreateUpadtePage(
+              type: false,
+              user: args,
+            ),
+          );
+        }
 
       default:
     }

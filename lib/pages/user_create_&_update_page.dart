@@ -1,4 +1,5 @@
 import 'package:ez_navy_app/controller/usre_create_update_controller.dart';
+import 'package:ez_navy_app/model/user_model.dart';
 import 'package:ez_navy_app/widgets/custom_input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,10 +7,11 @@ import 'package:get/get_core/src/get_main.dart';
 
 class UsercreateUpadtePage extends StatelessWidget {
   bool type;
+  UsersModel? user;
 
   final userCreateupdateController controller =
       Get.put(userCreateupdateController());
-  UsercreateUpadtePage({required this.type, super.key});
+  UsercreateUpadtePage({required this.type, this.user, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +111,7 @@ class UsercreateUpadtePage extends StatelessWidget {
                           width: width * 0.92,
                           height: height * 0.070,
                           child: TextButton(
-                            onPressed: controller.updateUser,
+                            onPressed: () => controller.updateUser(user!.id!),
                             style: TextButton.styleFrom(
                               backgroundColor:
                                   const Color.fromRGBO(11, 34, 62, 1),

@@ -1,10 +1,11 @@
 import 'package:ez_navy_app/controller/user_details_controller.dart';
+import 'package:ez_navy_app/model/user_model.dart';
 import 'package:ez_navy_app/routes/routes_names.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UserDetailsPage extends StatelessWidget {
-  final userID;
+  UsersModel userID;
 
   UserDetailsPage({required this.userID, super.key});
 
@@ -12,7 +13,7 @@ class UserDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.fetchUser(userID.id);
+    controller.fetchUser(userID.id!);
 
     return Scaffold(
       appBar: AppBar(title: Text('User Details')),
@@ -52,9 +53,8 @@ class UserDetailsPage extends StatelessWidget {
                   style: const TextStyle(fontSize: 16)),
               ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      RoutesName.userUpdatePage,
-                    );
+                    Navigator.of(context)
+                        .pushNamed(RoutesName.userUpdatePage, arguments: user);
                   },
                   child: Text('Update user'))
             ],
